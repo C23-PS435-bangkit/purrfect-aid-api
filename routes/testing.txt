@@ -1,0 +1,12 @@
+Contoh Testing Registrasi
+Method: POST
+URL: localhost:3000/users/register
+Body: (JSON)
+{
+  "email": "test@example.com",
+  "username": "testuser",
+  "password": "testpassword"
+}
+
+Saat ini belum diberi Bearer Token untuk Security
+Untuk start, bisa langsung menggunakan "npm start" setelah "npm init"

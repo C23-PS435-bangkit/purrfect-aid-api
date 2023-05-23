@@ -1,0 +1,24 @@
+{
+  "name": "purrfect-aid-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/C23-PS435-bangkit/purrfect-aid-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/C23-PS435-bangkit/purrfect-aid-api/issues"
+  },
+  "homepage": "https://github.com/C23-PS435-bangkit/purrfect-aid-api#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.3.2",
+    "nodemon": "^2.0.22"
+  }
+}
