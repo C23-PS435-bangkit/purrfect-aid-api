@@ -1,6 +1,6 @@
 Contoh Testing Registrasi
 Method: POST
-URL: localhost:3000/users/register
+URL: localhost:3000/users/signup
 Body: (JSON)
 {
   "email": "test@example.com",
@@ -8,5 +8,16 @@ Body: (JSON)
   "password": "testpassword"
 }
 
-Saat ini belum diberi Bearer Token untuk Security
+Method: POST
+URL: localhost:3000/users/signin
+Body: (JSON)
+{
+  "email": "test@example.com",
+  "password": "testpassword"
+}
+
+(Nadine via Akun Hakim)
+File env ada di Google Drive soon -> Saat ini masih memakai placeholder remotesql
+Sudah menambah JWT untuk autentikasi
+Melalui testing Postman, sudah valid, tapi, bagaimana implementasinya pada mobile app?
 Untuk start, bisa langsung menggunakan "npm start" setelah "npm init"
