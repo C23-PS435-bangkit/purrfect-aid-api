@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const session = require('express-session');
 const passport = require('passport');
+require('dotenv').config();
 
 const { authenticateToken, authenticateHeader } = require('../middleware');
 
@@ -22,8 +23,8 @@ function isLoggedIn(req, res, next) {
     req.user ? next() : res.sendStatus(401);
   }
   
-router.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
-router.use(passport.initialize());
+// router.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+
 router.use(passport.session());
 
 router.get('/auth/google',
