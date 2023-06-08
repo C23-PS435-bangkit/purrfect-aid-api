@@ -1,10 +1,13 @@
 const { Router } = require('express');
+const session = require('express-session');
+const passport = require('passport');
 
 const { authenticateToken, authenticateHeader } = require('../middleware');
 
 const jwt = require('jsonwebtoken');
 const pool = require('../database');
 const router = Router();
+require('../passport-function');
 
 router.get('/', [authenticateToken], async (req, res) => {
     const queryResult = await pool.promise().query(`SELECT users_email, users_name FROM users WHERE users_name='${req.response.username}' LIMIT 1`);
@@ -14,6 +17,38 @@ router.get('/', [authenticateToken], async (req, res) => {
         data: result
     });
 })
+
+function isLoggedIn(req, res, next) {
+    req.user ? next() : res.sendStatus(401);
+  }
+  
+router.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+router.use(passport.initialize());
+router.use(passport.session());
+
+router.get('/auth/google',
+    passport.authenticate('google', { scope: [ 'email', 'profile' ] }
+));
+
+router.get('/auth/google/callback',
+    passport.authenticate( 'google', {
+    successRedirect: '/users/protected',
+    failureRedirect: '/users/auth/google/failure'
+    })
+);
+
+router.get('/protected', isLoggedIn, (req, res) => {
+    console.log(req.user)
+    result = req.user
+    const token = jwt.sign({
+        username: result.displayName,
+    }, process.env.dbsecrettoken, { expiresIn: '3d' });
+    res.status(200).json({
+        status: 200,
+        msg: 'Sign In success!',
+        token: token
+    });
+});
 
 router.post('/signup', async (req, res) => {
   const { email, username, password } = req.body;
