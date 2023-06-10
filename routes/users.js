@@ -8,7 +8,6 @@ const { authenticateToken, authenticateHeader } = require('../middleware');
 const jwt = require('jsonwebtoken');
 const pool = require('../database');
 const router = Router();
-require('../passport-function');
 
 router.get('/', [authenticateToken], async (req, res) => {
     const queryResult = await pool.promise().query(`SELECT users_email, users_name FROM users WHERE users_name='${req.response.username}' LIMIT 1`);
@@ -23,8 +22,8 @@ function isLoggedIn(req, res, next) {
     req.user ? next() : res.sendStatus(401);
   }
   
-// router.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
-
+router.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+router.use(passport.initialize());
 router.use(passport.session());
 
 router.get('/auth/google',
