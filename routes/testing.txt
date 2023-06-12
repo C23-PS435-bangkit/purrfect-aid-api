@@ -1,4 +1,10 @@
-Contoh Testing Registrasi
+Contoh Testing
+
+Method: GET
+URL: localhost:3000/users/
+*Perlu Bearer Token
+**bentuk response ada user_email, user_name, dan link user_image
+
 Method: POST
 URL: localhost:3000/users/signup
 Body: (JSON)
@@ -7,6 +13,7 @@ Body: (JSON)
   "username": "testuser",
   "password": "testpassword"
 }
+**response berupa status
 
 Method: POST
 URL: localhost:3000/users/signin
@@ -15,9 +22,10 @@ Body: (JSON)
   "email": "test@example.com",
   "password": "testpassword"
 }
+**response berupa status dan token JWT
 
-(Nadine via Akun Hakim)
-File env ada di Google Drive soon -> Saat ini masih memakai placeholder remotesql
-Sudah menambah JWT untuk autentikasi
-Melalui testing Postman, sudah valid, tapi, bagaimana implementasinya pada mobile app?
-Untuk start, bisa langsung menggunakan "npm start" setelah "npm init"
+Method: POST -> Dibuka di browser
+URL: localhost:3000/users/google
+**response berupa status dan token JWT
+
+Untuk user sudah selesai, tinggal setting untuk pengaturan in-app dsb.
