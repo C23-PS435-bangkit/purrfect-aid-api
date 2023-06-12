@@ -10,7 +10,7 @@ function authenticateToken(req, res, next) {
         msg: "Bearer token not found"
     });
 
-    jwt.verify(token, process.env.dbsecrettoken, (err, response) => {
+    jwt.verify(token, process.env.SECRET_TOKEN, (err, response) => {
         if (err) return res.status(403).json({
             status: 403,
             msg: "invalid token"
