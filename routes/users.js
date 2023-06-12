@@ -12,7 +12,7 @@ const pool = require('../config/database');
 const router = Router();
 
 router.get('/', [authenticateToken], async (req, res) => {
-  const { email, username } = req.response;
+  const { email, username, auth_service} = req.response;
   const [rows] = await pool.promise().query('SELECT COUNT(*) AS count FROM user WHERE user_email = ? AND user_is_native_registration = TRUE', [email]);
   const count = rows[0].count;
   if (count > 0) {
@@ -93,7 +93,7 @@ router.post('/signin', async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ email: user.user_email, username: user.user_name }, process.env.SECRET_TOKEN, { expiresIn: '1d' });
+    const token = jwt.sign({ email: user.user_email, username: user.user_name, auth_service: "None"}, process.env.SECRET_TOKEN, { expiresIn: '1d' });
     res.status(200).json({
       status: 200,
       msg: 'Sign In success!',
@@ -107,7 +107,6 @@ router.post('/signin', async (req, res) => {
     });
   }
 });
-
 
 //Google Function
 function isLoggedIn(req, res, next) {
@@ -138,7 +137,6 @@ router.get('/google/logout', (req, res) => {
   })
 });
 
-
 router.get('/protected', isLoggedIn, async (req, res) => {
   try {
     console.log(req.user);
@@ -147,7 +145,7 @@ router.get('/protected', isLoggedIn, async (req, res) => {
     const count = rows[0].count;
 
     console.log(req.user);
-    const token = jwt.sign({ email: user.email, username: user.displayName }, process.env.SECRET_TOKEN, { expiresIn: '3d' });
+    const token = jwt.sign({ email: user.email, username: user.displayName, auth_service: "Google"}, process.env.SECRET_TOKEN, { expiresIn: '3d' });
     if (count > 0) {
       const [rows2] = await pool.promise().query('SELECT user_email, user_id FROM user, googleauthaccounts WHERE googleauthaccounts.google_id = ? AND user.user_id = googleauthaccounts.google_user_id', [user.id]);
       const emailSaved = rows2[0].user_email;
@@ -186,102 +184,4 @@ router.get('/protected', isLoggedIn, async (req, res) => {
   }
 });
 
-// router.get('/protected', isLoggedIn, async (req, res) => {
-//     try {
-//       console.log(req.user)
-//       const user = req.user;
-//       const [rows] = await pool.promise().query('SELECT COUNT(*) AS count FROM user, googleauthaccounts WHERE googleauthaccounts.google_id = ? AND user.user_id = googleauthaccounts.google_user_id', [user.id]);
-//       const count = rows[0].count;
-      
-//       console.log(req.user)
-//       const token = jwt.sign({ email: user.email, username: user.displayName }, process.env.SECRET_TOKEN, { expiresIn: '3d' });
-//       if (count > 0) {
-//         const [rows2] = await pool.promise().query('SELECT user_email, user_id FROM user, googleauthaccounts WHERE googleauthaccounts.google_id = ? AND user.user_id = googleauthaccounts.google_user_id', [user.id]);
-//         const emailSaved = rows2[0].user_email;
-//         const idSaved = rows2[0].user_id;
-//         if (emailSaved !== user.email) {
-//           const query = 'UPDATE user SET user_email = ? WHERE user_id = ?';
-//           await pool.promise().query(query, [user.email, idSaved]);
-//         } else {
-//           res.status(200).json({
-//           status: 200,
-//           msg: 'Sign In success!',
-//           token: token
-//         });
-//        } 
-//       } else {
-//         const saltRounds = 10;
-//         const hashedPassword = await bcrypt.hash(process.env.ROOT_PASSWORD, saltRounds);
-//         const query = 'INSERT INTO user (user_email, user_name, user_password, user_image, user_auth_provider, user_is_native_registration) VALUES (?, ?, ?, ?, ?, ?)';
-//         await pool.promise().query(query, [user.email, user.displayName, hashedPassword, user.picture, '1', true]);
-//         const [getId] = await pool.promise().query('SELECT user_id FROM user WHERE user_image =?' [user.picture]);
-//         const userId = getId[0].user_id;
-//         const query3 = 'INSERT INTO googleauthaccounts (google_user_id, google_id) VALUES (?, ?)';
-//         await pool.promise().query(query3, [userId, user.id]);
-//         res.status(200).json({
-//           status: 200,
-//           msg: 'Akun telah dibuat, Selamat bergabung di Purrfect Aid',
-//           token: token
-//         });
-//       }
-//     } catch (error) {
-//       console.error('Error executing query:', error);
-//       res.status(500).json({
-//         status: 500,
-//         msg: 'Server error',
-//       });
-//     }
-//   });
-  
-
 module.exports = router;
-
-//Unused
-// router.get('/protected', isLoggedIn, (req, res) => {
-//     console.log(req.user)
-//     result = req.user
-//     const token = jwt.sign({
-//         username: result.displayName,
-//     }, process.env.SECRET_TOKEN, { expiresIn: '3d' });
-//     res.status(200).json({
-//         status: 200,
-//         msg: 'Sign In success!',
-//         token: token
-//     });
-// });
-//
-// router.post('/signin', (req, res) => {
-//     const { email, password } = req.body;
-//     if (email) {
-//         pool.query(`SELECT * FROM users WHERE users_email=? LIMIT 1`, [email], (err, result, fields) => {
-//             result = result[0];
-//             // console.log(result);
-//             if (err) {
-//                 console.log(err);
-//                 return res.status(500).json({
-//                     status: 500,
-//                     msg: 'Server error'
-//                 });
-//             }
-//             if (!result || result.users_pass !== password)
-//                 return res.status(401).json({
-//                     status: 400,
-//                     msg: 'Invalid E-mail atau Password. Mohon Sign Up apabila belum memiliki akun.'
-//                 });
-
-//             const token = jwt.sign({
-//                 username: result.users_name,
-//             }, process.env.SECRET_TOKEN, { expiresIn: '3d' });
-//             res.status(200).json({
-//                 status: 200,
-//                 msg: 'Sign In success!',
-//                 token: token
-//             });
-//         });
-//     } else {
-//         res.status(400).json({
-//             status : 400,
-//             msg: 'Invalid Parameters'
-//         });
-//     }
-// });
