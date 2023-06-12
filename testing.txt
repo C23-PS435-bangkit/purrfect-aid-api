@@ -1,0 +1,66 @@
+Contoh Testing
+
+/////USER SIGN UP DAN SIGN IN//////
+Method: GET
+URL: localhost:3000/users/
+*Perlu Bearer Token
+**Response berupa JSON kredensial pengguna: user_email, user_name, dan link user_image
+
+Method: POST
+URL: localhost:3000/users/signup
+Body: (JSON)
+{
+  "email": "test@example.com",
+  "username": "testuser",
+  "password": "testpassword"
+}
+**Response berupa JSON status
+
+Method: POST
+URL: localhost:3000/users/signin
+Body: (JSON)
+{
+  "email": "test@example.com",
+  "password": "testpassword"
+}
+**Response berupa JSON status dan token JWT
+
+Method: POST -> Dibuka di browser
+URL: localhost:3000/users/google
+**response berupa status dan token JWT
+
+////COMMUNITY POST//////
+*Perlu Bearer Token
+
+Method: GET
+URL: localhost:3000/communities/
+**Response berupa JSON seluruh community_post_id, community_post_title,community_post_content, community_post_user_id, comment_count, dan like_count
+
+Method: GET
+URL: localhost:3000/communities/:postId
+**Response berupa JSON detil community_post_id, community_post_title,community_post_content, community_post_user_id, comment_count, dan like_count
+
+Method: POST
+URL: localhost:3000/communities/
+Body: (JSON)
+{
+  "title": "Test Title",
+  "content": "Test Content"
+}
+**Response berupa JSON dari postingan berisi community_post_id, community_post_title, dan community_post_content
+
+Method: POST
+URL: localhost:3000/communities/:postId/comment
+Body: (JSON)
+{
+  "comment": "Test Comment",
+}
+**Response berupa JSON dari status dan pesan
+
+Method: POST
+URL: localhost:3000/communities/:postId/like
+Body: (JSON)
+{
+  //Kosongan, tidak ada json
+}
+**Response berupa JSON dari status dan pesan (Bisa like dan unlike, dengan batasan setiap orang hanya bisa me-like satu kali)
