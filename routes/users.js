@@ -3,12 +3,12 @@ const { Router } = require('express');
 const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
-require('../passport-function')
+require('../config/passport-function')
 
-const { authenticateToken, authenticateHeader } = require('../middleware');
+const { authenticateToken, authenticateHeader } = require('./middleware');
 
 const jwt = require('jsonwebtoken');
-const pool = require('../database');
+const pool = require('../config/database');
 const router = Router();
 
 router.get('/', [authenticateToken], async (req, res) => {
@@ -93,7 +93,7 @@ router.post('/signin', async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ email: user.user_email, username: user.user_name }, process.env.SECRET_TOKEN, { expiresIn: '3d' });
+    const token = jwt.sign({ email: user.user_email, username: user.user_name }, process.env.SECRET_TOKEN, { expiresIn: '1d' });
     res.status(200).json({
       status: 200,
       msg: 'Sign In success!',
@@ -107,6 +107,7 @@ router.post('/signin', async (req, res) => {
     });
   }
 });
+
 
 //Google Function
 function isLoggedIn(req, res, next) {
@@ -127,6 +128,16 @@ router.get('/google/callback',
     failureRedirect: '/users/google/failure'
     })
 );
+
+router.get('/google/logout', (req, res) => {
+  // req.logout();
+  req.session.destroy();
+  return res.status(200).json({
+    status: 200,
+    msg: 'logout succeed'
+  })
+});
+
 
 router.get('/protected', isLoggedIn, async (req, res) => {
   try {
