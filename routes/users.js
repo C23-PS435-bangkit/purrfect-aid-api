@@ -164,7 +164,7 @@ router.get('/protected', isLoggedIn, async (req, res) => {
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(process.env.ROOT_PASSWORD, saltRounds);
       const query = 'INSERT INTO user (user_email, user_name, user_password, user_image, user_auth_provider, user_is_native_registration) VALUES (?, ?, ?, ?, ?, ?)';
-      await pool.promise().query(query, [user.email, user.displayName, hashedPassword, user.picture, '1', true]);
+      await pool.promise().query(query, [user.email, user.displayName, hashedPassword, user.picture, '1', false]);
       const [getId] = await pool.promise().query('SELECT user_id FROM user WHERE user_image = ?', [user.picture]);
       const userId = getId[0].user_id;
       const query3 = 'INSERT INTO googleauthaccounts (google_user_id, google_id) VALUES (?, ?)';
