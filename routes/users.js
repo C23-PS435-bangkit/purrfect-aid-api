@@ -72,6 +72,16 @@ router.post('/signup', async (req, res) => {
    }
 });
 
+// router.get('/who',authenticateToken, (req, res) => {
+//   const { username, email, pfp, auth } = req.response;
+//   res.status(200).json({
+//     data1: username,
+//     data2: email,
+//     data3: pfp,
+//     data4: auth
+//   });
+// })
+
 router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
   try {
