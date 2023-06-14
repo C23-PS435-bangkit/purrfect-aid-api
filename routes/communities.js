@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', [authenticateToken], async (req, res) => {
   try {
-    const [rows] = await pool.promise().query('SELECT community_post.*, COUNT(community_comment.community_comment_id) AS comment_count, COUNT(community_like.community_like_id) AS like_count FROM community_post LEFT JOIN community_comment ON community_post.community_post_id = community_comment.community_comment_post_id LEFT JOIN community_like ON community_post.community_post_id = community_like.community_like_post_id GROUP BY community_post.community_post_id');
+    const [rows] = await pool.promise().query('SELECT community_post.*, user.user_name, COUNT(community_comment.community_comment_id) AS comment_count, COUNT(community_like.community_like_id) AS like_count FROM community_post LEFT JOIN community_comment ON community_post.community_post_id = community_comment.community_comment_post_id LEFT JOIN community_like ON community_post.community_post_id = community_like.community_like_post_id LEFT JOIN user ON user.user_id = community_post.community_post_user_id GROUP BY community_post.community_post_id');
     const community_posts = rows;
     res.status(200).json({
     status: 200,
