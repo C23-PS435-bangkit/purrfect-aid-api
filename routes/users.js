@@ -93,10 +93,13 @@ router.post('/signin', async (req, res) => {
       });
     }
 
+    const queryResult = await pool.promise().query(`SELECT user_id, user_email, user_name, user_image, user_auth_provider, user_is_native_registration FROM user WHERE user_email='${email}' AND user_is_native_registration = TRUE LIMIT 1`);
+    const result = queryResult[0][0];
     const token = jwt.sign({ email: user.user_email, username: user.user_name, auth_service: "None"}, process.env.SECRET_TOKEN, { expiresIn: '1d' });
     res.status(200).json({
       status: 200,
       msg: 'Sign In success!',
+      data: result,
       token: token
     });
   } catch (error) {
