@@ -155,11 +155,13 @@ router.post('/google', async (req, res) => {
   try {
     const [rows] = await pool.promise().query('SELECT COUNT(*) AS count FROM user, googleauthaccounts WHERE googleauthaccounts.google_id = ? AND user.user_id = googleauthaccounts.google_user_id', [google_id]);
     const count = rows[0].count;
-    const token = jwt.sign({ email: google_email, username: google_name, auth_service: "Google"}, process.env.SECRET_TOKEN, { expiresIn: '3d' });
+    // const token = jwt.sign({ email: google_email, username: google_name, auth_service: "Google"}, process.env.SECRET_TOKEN, { expiresIn: '3d' });
     if (count > 0) {
-      const [rows2] = await pool.promise().query('SELECT user_email, user_id FROM user, googleauthaccounts WHERE googleauthaccounts.google_id = ? AND user.user_id = googleauthaccounts.google_user_id', [google_id]);
+      const [rows2] = await pool.promise().query('SELECT user_email, user_id, user_name FROM user, googleauthaccounts WHERE googleauthaccounts.google_id = ? AND user.user_id = googleauthaccounts.google_user_id', [google_id]);
       const emailSaved = rows2[0].user_email;
       const idSaved = rows2[0].user_id;
+      const nameSaved = rows2[0].user_name;
+      const token = jwt.sign({ email: google_email, username: nameSaved, auth_service: "Google"}, process.env.SECRET_TOKEN, { expiresIn: '3d' });
       if (emailSaved !== google_email) {
         const query = 'UPDATE user SET user_email = ? WHERE user_id = ?';
         await pool.promise().query(query, [google_email, idSaved]);
@@ -179,6 +181,7 @@ router.post('/google', async (req, res) => {
       const userId = getId[0].user_id;
       const query3 = 'INSERT INTO googleauthaccounts (google_user_id, google_id) VALUES (?, ?)';
       await pool.promise().query(query3, [userId, google_id]);
+      const token = jwt.sign({ email: google_email, username: google_name, auth_service: "Google"}, process.env.SECRET_TOKEN, { expiresIn: '3d' });
       res.status(200).json({
         status: 200,
         msg: 'Akun telah dibuat, Selamat bergabung di Purrfect Aid',
