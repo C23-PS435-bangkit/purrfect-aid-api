@@ -1,5 +1,5 @@
 #instal node
-FROM node:16-alpine3.16
+FROM node:18-alpine
 
 #folder
 WORKDIR /purrfect-aid-api
