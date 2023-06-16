@@ -1,3 +1,5 @@
+config/quantum-lambda-388103-6b9321f28922.json
+
 # Logs
 logs
 *.log
@@ -128,5 +130,5 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-config/quantum-lambda-388103-6b9321f28922.json
+
 
