@@ -61,7 +61,7 @@ router.post('/',  [authenticateToken], upload.single('image'), async(req, res, n
     // The image has been uploaded successfully
     const imageUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
     // Make a HTTP POST request to your Flask application
-    fetch('http://127.0.0.1:5000/predict', {
+    fetch('https://purrfect-aid-model-dot-quantum-lambda-388103.et.r.appspot.com/predict', {
     // -> Nnati diganti API ML-nya
       method: 'POST',
       body: JSON.stringify({ "image_url": imageUrl }),
