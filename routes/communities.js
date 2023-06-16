@@ -26,7 +26,7 @@ router.get('/', [authenticateToken], async (req, res) => {
 router.post('/', [authenticateToken], async (req, res) => {
   try {
     const { email, username, auth_service } = req.response;
-    const { title, content } = req.body;
+    const { content } = req.body;
     const postId = nanoid(16); // Generate a unique ID for the post
 
     let userId;
@@ -46,7 +46,7 @@ router.post('/', [authenticateToken], async (req, res) => {
 
     await pool
       .promise()
-      .query('INSERT INTO community_post (community_post_id, community_post_title, community_post_content, community_post_user_id) VALUES (?, ?, ?, ?)', [postId, title, content, userId]);
+      .query('INSERT INTO community_post (community_post_id, community_post_content, community_post_user_id) VALUES (?, ?, ?, ?)', [postId, title, content, userId]);
 
     const queryResult = await pool.promise().query('SELECT * FROM community_post WHERE community_post_id = ? LIMIT 1', [postId]);
     const result = queryResult[0][0];
@@ -88,7 +88,6 @@ router.get('/:postId', [authenticateToken], async (req, res) => {
         .promise()
         .query(
             `SELECT
-            community_post.community_post_title,
             community_post.community_post_content,
             community_post.community_post_user_id AS post_user_id,
             u.user_name,

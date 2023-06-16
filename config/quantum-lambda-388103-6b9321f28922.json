@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "quantum-lambda-388103",
+  "private_key_id": "40178697b64855b196fd0dd27e36184a1bfff7ed",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCqns53zOBnVSwW\neLYcTARRQWOCjsLQHTlfEEtb5w+oa4zS+tQW5ODuYPIBMTX+kut9XM1nIgLepgky\n08yN2CJ4KAwJyAxleyKUQgP+TnNe+PrGP02+yHbAjoc4w/ZnBz8pPDZ6wOr2TUbo\nq+vR1bcu9Lnrhxm+mS8Cp2lfv95Sy+uttJwR7EqgMAJ4fFjOTIY2z1wa/7ffiIOE\nWvgAV0ntIYkuS11pHzWT6L/xqJxpGuTCC3482NnY6qNx0xuQiNlpyCtLbvH7Ye+D\nw7f17doO00WnYnFdItmW2nHlHdwzinQFvXFW1YgCxhaNRZN6NLi7GHqQUOdZMWzs\njZGVg6JHAgMBAAECggEAAu0B5bcF2sUbTPAD+3HoRGEb15Ii0BZ4NI5JzzPOpm41\ntivRSuqLhZBJsMXgbahPpnuFatvVSG54y5OAjKbPVy0koQmlAMZ+83jlqveQbelU\nxOUyrESxbfWOZxBL35IVvgYczw0ThRFn17c/A379Na5s/mzM1GJka9C6yLFjGsYC\nQ8+oOWmP6zbInCYU1qi+hHASZpTMdpmp9UrAtONrJwZJSwuCgK9SZn3DfCkpS/G0\ndSg0L8hD2UryoaBTVFeea7SqxyqUcNeDBchvhLCsR9/bEuc5480a4OByFf2cinXM\nqLpgItN9QcZEenYm+YT2oVSxUf90xC1sEhxaZKxh2QKBgQDRipRDSJY7zbU6nE5h\nxd0+U8iQXO76DdWBm+J1KrOumVtJ3Yur0Mqx8NhsDtIGzNI8ihb1vHkPePgrehq0\n57uEbJteAZekZB+EG2TxpvcCTYr7NkMn5wuC4NQA3fazeNzL952+y87Fu14KwpNj\nF/n2n+i0xeBgM/mbsn05wzY3TwKBgQDQcxlaZzTgcQ1xWkG1tz78mSAxh843VMOy\n6Y/IvAWftMopS8hDVmLr7qc+wbL7j63Rq4+LDFz9PDE0X2Aak6EUmhDJh6SYUwvu\nqZqnOWTy46+RdDR7E2HwBOGV8djxgufeObM5PGjhWbM8Vc8iEdVH56HS69yrOE9C\n4y26Lv0niQKBgGSCoJOVodqV1bSDfWWQz4syDSaSLV9se1lsOLgS/5VkolFQH8sO\nn+uyp11NzpjMbpvzcQf2m+s8D25rZ5wW+++NWQlCokaMcEGiEk2H1TwZjezqHlRp\nky/4QDkaP1ffRang4J3AjTJzqaxnoOMLgS83jRwJPpNm2vhAKaknZj4pAoGAHNa/\nvDUpKKAbdwJAsw5OJY5d2NxsGFWe2aLcpK32rTjK+1mjtEVAXFnhQ5py08D2EFsG\n+frU5qgsOo2zcxnXoE0MY4VjrTtYHEXUwqv7HmuHv7zvAdQVqapTN3aFSCyPPbyH\n4jRMYlkRphhNFu6WrmMKjW7aUcnxlVRu4CJeHdkCgYEAg981ftaOwn0HJ73i+EGV\nEDCAxO3zWlwOaLDzcaM0CosE0HdQi7RNSPYR9u14y8pXDJtcLhrX4obrc7P8xCvb\nlTEgSB60XlkdoKj34azir19q3A5ajlCkKLXlmnbGooTdt8YNwMW+JtJF4qDMKfto\nyu++7yprKwXtpvxP/xn++9Y=\n-----END PRIVATE KEY-----\n",
+  "client_email": "purrfect-aid-helper@quantum-lambda-388103.iam.gserviceaccount.com",
+  "client_id": "101755982008429215395",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/purrfect-aid-helper%40quantum-lambda-388103.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

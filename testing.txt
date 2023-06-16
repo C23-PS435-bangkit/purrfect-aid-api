@@ -64,3 +64,20 @@ Body: (JSON)
   //Kosongan, tidak ada json
 }
 **Response berupa JSON dari status dan pesan (Bisa like dan unlike, dengan batasan setiap orang hanya bisa me-like satu kali)
+
+////PREDICT//////
+*Perlu Bearer Token
+
+Method: GET
+URL: localhost:3000/predict/
+**Response berupa JSON seluruh hasil scan dari pengguna
+
+Method: POST
+URL: localhost:3000/predict/
+Body: (form-data)
+  image (type file), (unggah gambar)
+**Response berupa JSON dari hasil prediksi
+
+Method: GET
+URL: localhost:3000/predict/:predictId
+**Response berupa JSON hasil scan dari berdasarkan id prediksi dan nama pengguna

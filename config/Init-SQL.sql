@@ -26,10 +26,11 @@ CREATE TABLE authprovider (
 
 CREATE TABLE community_post (
     community_post_id VARCHAR(20) PRIMARY KEY,
-    community_post_title VARCHAR(256) NOT NULL,
     community_post_content VARCHAR(1500) NOT NULL,
     community_post_user_id INT NOT NULL,
-    FOREIGN KEY (community_post_user_id) REFERENCES user (user_id)
+    community_post_attachment_id VARCHAR(100) NULL,
+    FOREIGN KEY (community_post_user_id) REFERENCES user (user_id),
+    FOREIGN KEY (community_post_attachment_id) REFERENCES scan (scan_id)
 );
 
 CREATE TABLE community_comment (
@@ -47,6 +48,16 @@ CREATE TABLE community_like (
     community_like_post_id VARCHAR(20) NOT NULL,
     FOREIGN KEY (community_like_user_id) REFERENCES user (user_id),
     FOREIGN KEY (community_like_post_id) REFERENCES community_post (community_post_id)
+);
+
+CREATE TABLE scan (
+    scan_id VARCHAR(30) PRIMARY KEY,
+    scan_pict VARCHAR(100) NOT NULL,
+    scan_diagnose VARCHAR(50) NOT NULL,
+    scan_treatment VARCHAR(150) NOT NULL,
+    scan_date DATETIME NOT NULL,
+    scan_user_id INT NOT NULL,
+    FOREIGN KEY (scan_user_id) REFERENCES user (user_id)
 );
 
 INSERT INTO authprovider (authprovider_name)
