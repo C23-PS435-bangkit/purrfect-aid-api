@@ -9,6 +9,12 @@ Before you begin, make sure you have the following prerequisites installed:
 - Node.js
 - MySQL
 - Postman
+- ExpressJS
+- Nanoid
+- JWT
+- @google-cloud/storage
+- dotenv
+- Docker(optional)
 
 ## Getting Started
 
@@ -35,7 +41,7 @@ Before you begin, make sure you have the following prerequisites installed:
 |        **Endpoint**        | **HTTP Method** |              **Description**              | **Need Bearer Token?** |                              **Request Body (if any)**                             |
 |:--------------------------:|:---------------:|:-----------------------------------------:|:----------------------:|:----------------------------------------------------------------------------------:|
 | `/users`                   |       GET       | Retrieve users' info                      |           Yes          |                                                                                    |
-| `/users/google`            |       GET       | Sign in or sign up using Google Auth      |           No           |                                                                                    |
+| `/users/google`            |       GET       | Sign in or sign up using Google Auth      |           No           | ```{"google_email": "example@mail","google_name": "example","google_picture" : "<https://example.jpg","google_id>" : "1"}``` |
 | `/users/signin`            |       POST      | Sign in using native method               |           No           | ```{"email":"test@example.com","password":"testpassword"}```                       |
 | `/users/signup`            |       POST      | Sign up or register using native method   |           No           | ```{"email":"test@example.com","username":"testuser","password":"testpassword"}``` |
 | `/communities`             |       GET       | Retrieve all communities' posts           |           Yes          |                                                                                    |
