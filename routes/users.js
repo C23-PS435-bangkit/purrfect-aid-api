@@ -122,50 +122,47 @@ router.post('/signin', async (req, res) => {
 });
 
 //Google Function
-function isLoggedIn(req, res, next) {
-    req.user ? next() : res.sendStatus(401);
-  }
+// function isLoggedIn(req, res, next) {
+//     req.user ? next() : res.sendStatus(401);
+//   }
   
-router.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
-router.use(passport.initialize());
-router.use(passport.session());
+// router.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+// router.use(passport.initialize());
+// router.use(passport.session());
 
-router.get('/google',
-    passport.authenticate('google', { scope: [ 'email', 'profile' ] }
-));
+// router.get('/google',
+//     passport.authenticate('google', { scope: [ 'email', 'profile' ] }
+// ));
 
-router.get('/google/callback',
-    passport.authenticate( 'google', {
-    successRedirect: '/users/protected',
-    failureRedirect: '/users/google/failure'
-    })
-);
+// router.get('/google/callback',
+//     passport.authenticate( 'google', {
+//     successRedirect: '/users/protected',
+//     failureRedirect: '/users/google/failure'
+//     })
+// );
 
-router.get('/google/logout', (req, res) => {
-  // req.logout();
-  req.session.destroy();
-  return res.status(200).json({
-    status: 200,
-    msg: 'logout succeed'
-  })
-});
+// router.get('/google/logout', (req, res) => {
+//   // req.logout();
+//   req.session.destroy();
+//   return res.status(200).json({
+//     status: 200,
+//     msg: 'logout succeed'
+//   })
+// });
 
-router.get('/protected', isLoggedIn, async (req, res) => {
+router.post('/google', async (req, res) => {
+  const { google_email, google_name, google_id, google_picture } = req.body;
   try {
-    console.log(req.user);
-    const user = req.user;
-    const [rows] = await pool.promise().query('SELECT COUNT(*) AS count FROM user, googleauthaccounts WHERE googleauthaccounts.google_id = ? AND user.user_id = googleauthaccounts.google_user_id', [user.id]);
+    const [rows] = await pool.promise().query('SELECT COUNT(*) AS count FROM user, googleauthaccounts WHERE googleauthaccounts.google_id = ? AND user.user_id = googleauthaccounts.google_user_id', [google_id]);
     const count = rows[0].count;
-
-    console.log(req.user);
-    const token = jwt.sign({ email: user.email, username: user.displayName, auth_service: "Google"}, process.env.SECRET_TOKEN, { expiresIn: '3d' });
+    const token = jwt.sign({ email: google_email, username: google_name, auth_service: "Google"}, process.env.SECRET_TOKEN, { expiresIn: '3d' });
     if (count > 0) {
-      const [rows2] = await pool.promise().query('SELECT user_email, user_id FROM user, googleauthaccounts WHERE googleauthaccounts.google_id = ? AND user.user_id = googleauthaccounts.google_user_id', [user.id]);
+      const [rows2] = await pool.promise().query('SELECT user_email, user_id FROM user, googleauthaccounts WHERE googleauthaccounts.google_id = ? AND user.user_id = googleauthaccounts.google_user_id', [google_id]);
       const emailSaved = rows2[0].user_email;
       const idSaved = rows2[0].user_id;
-      if (emailSaved !== user.email) {
+      if (emailSaved !== google_email) {
         const query = 'UPDATE user SET user_email = ? WHERE user_id = ?';
-        await pool.promise().query(query, [user.email, idSaved]);
+        await pool.promise().query(query, [google_email, idSaved]);
       } else {
         res.status(200).json({
           status: 200,
@@ -177,11 +174,11 @@ router.get('/protected', isLoggedIn, async (req, res) => {
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(process.env.ROOT_PASSWORD, saltRounds);
       const query = 'INSERT INTO user (user_email, user_name, user_password, user_image, user_auth_provider, user_is_native_registration) VALUES (?, ?, ?, ?, ?, ?)';
-      await pool.promise().query(query, [user.email, user.displayName, hashedPassword, user.picture, '1', false]);
-      const [getId] = await pool.promise().query('SELECT user_id FROM user WHERE user_image = ?', [user.picture]);
+      await pool.promise().query(query, [google_email, google_name, hashedPassword, google_picture, '1', false]);
+      const [getId] = await pool.promise().query('SELECT user_id FROM user WHERE user_image = ?', [google_picture]);
       const userId = getId[0].user_id;
       const query3 = 'INSERT INTO googleauthaccounts (google_user_id, google_id) VALUES (?, ?)';
-      await pool.promise().query(query3, [userId, user.id]);
+      await pool.promise().query(query3, [userId, google_id]);
       res.status(200).json({
         status: 200,
         msg: 'Akun telah dibuat, Selamat bergabung di Purrfect Aid',
